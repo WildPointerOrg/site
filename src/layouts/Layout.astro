@@ -1,0 +1,55 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = '*WP — WildPointer',
+  description = 'WildPointer is an open volunteer-driven organization building open-source products through transparent collaboration.'
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0b0d0c" />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <title>{title}</title>
+  </head>
+
+  <body>
+    <div class="crt-noise" aria-hidden="true"></div>
+    <div class="scanline" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <a class="logo" href="#top" aria-label="WildPointer home">*WP</a>
+
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="#about">about</a>
+        <a href="#workflow">workflow</a>
+        <a href="#roles">roles</a>
+        <a href="#join">join</a>
+        <a href="#resources">resources</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <slot />
+    </main>
+  </body>
+</html>
