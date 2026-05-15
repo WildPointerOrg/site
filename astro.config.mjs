@@ -4,5 +4,6 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://wildwildpointer.github.io',
   output: 'static',
+  base: 'site',
   integrations: [sitemap()]
 });
