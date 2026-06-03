@@ -1,0 +1,40 @@
+---
+interface Props {
+  Content: astro.MdInstance['default'];
+}
+
+const { Content } = Astro.props;
+---
+
+<div class="md-content">
+  <Content />
+</div>
+
+<style>
+  .md-content :global(h2) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-wp-text, #e6edf3);
+  }
+  .md-content :global(h3) {
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-wp-text, #e6edf3);
+  }
+  .md-content :global(p),
+  .md-content :global(li) {
+    color: #8b949e;
+    line-height: 1.7;
+  }
+  .md-content :global(ul) {
+    margin: 0.75rem 0 1rem 1.25rem;
+    list-style: disc;
+  }
+  .md-content :global(a) {
+    color: #3fb950;
+  }
+</style>

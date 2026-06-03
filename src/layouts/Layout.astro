@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import { NAV_LINKS, SITE } from '../config/site';
+import { withBase } from '../lib/paths';
 
 interface Props {
   title?: string;
@@ -7,8 +9,8 @@ interface Props {
 }
 
 const {
-  title = '*WP — WildPointer',
-  description = 'WildPointer is an open volunteer-driven organization building open-source products through transparent collaboration.'
+  title = SITE.title,
+  description = SITE.description
 } = Astro.props;
 ---
 
@@ -18,38 +20,76 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#0b0d0c" />
-
+    <meta name="theme-color" content="#0d1117" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
-
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
     <title>{title}</title>
   </head>
-
   <body>
-    <div class="crt-noise" aria-hidden="true"></div>
-    <div class="scanline" aria-hidden="true"></div>
+    <header class="sticky top-0 z-50 border-b border-wp-border bg-wp-bg/90 backdrop-blur">
+      <div class="page-container flex items-center justify-between gap-4 py-4">
+        <a href={withBase('')} class="text-lg font-bold text-wp-text hover:text-wp-accent">
+          WildPointer
+        </a>
 
-    <header class="site-header">
-      <a class="logo" href="#top" aria-label="WildPointer home">*WP</a>
+        <nav class="hidden items-center gap-5 md:flex" aria-label="Main navigation">
+          {
+            NAV_LINKS.map((link) =>
+              link.external ? (
+                <a
+                  href={link.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  class="text-sm text-wp-muted transition hover:text-wp-text"
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <a href={withBase(link.href.replace(/^\//, ''))} class="text-sm text-wp-muted transition hover:text-wp-text">
+                  {link.label}
+                </a>
+              )
+            )
+          }
+        </nav>
 
-      <nav class="site-nav" aria-label="Main navigation">
-        <a href="#about">about</a>
-        <a href="#workflow">workflow</a>
-        <a href="#roles">roles</a>
-        <a href="#join">join</a>
-        <a href="#resources">resources</a>
+        <a href={withBase('join/')} class="btn-primary shrink-0 text-xs sm:text-sm">
+          JOIN
+        </a>
+      </div>
+
+      <nav class="page-container flex gap-4 overflow-x-auto border-t border-wp-border/60 py-2 md:hidden" aria-label="Mobile navigation">
+        {
+          NAV_LINKS.map((link) =>
+            link.external ? (
+              <a href={link.href} target="_blank" rel="noreferrer" class="shrink-0 text-xs text-wp-muted">
+                {link.label}
+              </a>
+            ) : (
+              <a href={withBase(link.href.replace(/^\//, ''))} class="shrink-0 text-xs text-wp-muted">
+                {link.label}
+              </a>
+            )
+          )
+        }
       </nav>
     </header>
 
-    <main id="top">
+    <main>
       <slot />
     </main>
+
+    <footer class="mt-16 border-t border-wp-border py-10">
+      <div class="page-container flex flex-wrap items-center justify-between gap-4 text-sm text-wp-muted">
+        <span>WildPointer — open volunteer community</span>
+        <div class="flex flex-wrap gap-4">
+          <a href={SITE.github} target="_blank" rel="noreferrer" class="hover:text-wp-accent">GitHub</a>
+          <a href={SITE.telegram} target="_blank" rel="noreferrer" class="hover:text-wp-accent">Telegram</a>
+          <a href={withBase('join/')} class="hover:text-wp-accent">Join</a>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>

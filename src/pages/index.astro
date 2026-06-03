@@ -1,230 +1,158 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import StageNavigator from '../components/StageNavigator.astro';
+import RoleCard from '../components/RoleCard.astro';
+import JoinCTA from '../components/JoinCTA.astro';
+import { SITE } from '../config/site';
+import { withBase } from '../lib/paths';
+import {
+  getAllProjects,
+  getFeaturedProjects,
+  getAllStages,
+  getAllRoles,
+  roleSlug
+} from '../lib/content';
 
-const links = {
-  linkedin: 'https://www.linkedin.com/company/wildpointer',
-  telegram: 'https://t.me/chechestor',
-  email: 'mailto:wildwildpointer@gmail.com',
-  github: 'https://github.com/wildwildpointer',
-  miro: 'https://miro.com/app/board/uXjVGkdA9jc=/?share_link_id=967284923762',
-  registry: 'https://docs.google.com/document/d/175_0ydccuobLuq9lwsbwxwha74-dvb0JUyEoPQ0k4OU/edit?usp=drive_link',
-  drive: 'https://drive.google.com/drive/folders/1BtWFqoJgypN-O1KAxZ4StLzoNHQOomFE?usp=drive_link'
+const [projects, featuredProjects, stages, roles] = await Promise.all([
+  getAllProjects(),
+  getFeaturedProjects(6),
+  getAllStages(),
+  getAllRoles()
+]);
+
+const homeRoleSlugs = ['product-lead', 'coordinator', 'community-steward', 'maintainer'];
+const homeRoles = homeRoleSlugs
+  .map((slug) => roles.find((r) => roleSlug(r) === slug))
+  .filter((r): r is NonNullable<typeof r> => Boolean(r));
+
+const activeProjects = projects.filter((p) => p.data.status === 'active');
+const stats = {
+  projects: projects.length,
+  members: SITE.memberCount ?? '—',
+  squads: activeProjects.length
 };
 ---
 
-<Layout>
-  <section class="hero" aria-labelledby="hero-title">
-    <div class="boot-line"><span>C:\WP&gt;</span> boot --community</div>
-    <p class="status-line">STATUS: OPEN // MODE: VOLUNTARY // ACCESS: PUBLIC</p>
-
-    <h1 id="hero-title">*WP</h1>
-
-    <p class="hero-subtitle">
-      WildPointer is an open volunteer-driven organization building open-source products through transparent collaboration.
+<Layout title={SITE.title} description={SITE.description}>
+  <section class="page-container border-b border-wp-border py-16 md:py-24">
+    <h1 class="mb-6 max-w-4xl text-4xl font-bold tracking-tight text-wp-text md:text-6xl">
+      Build Real Products Together
+    </h1>
+    <p class="mb-8 max-w-3xl text-lg leading-relaxed text-wp-muted md:text-xl">
+      WildPointer is an open volunteer community where engineers, product managers, designers,
+      researchers and enthusiasts create real open-source products together.
     </p>
+    <div class="mb-10 flex flex-wrap gap-3">
+      <a href={withBase('join/')} class="btn-primary">JOIN THE COMMUNITY</a>
+      <a href={withBase('projects/')} class="btn-secondary">VIEW PROJECTS</a>
+    </div>
+    <dl class="grid max-w-xl grid-cols-3 gap-4 rounded-lg border border-wp-border bg-wp-surface p-5">
+      <div>
+        <dt class="text-xs uppercase tracking-wide text-wp-muted">Projects</dt>
+        <dd class="text-2xl font-bold text-wp-text">{stats.projects}</dd>
+      </div>
+      <div>
+        <dt class="text-xs uppercase tracking-wide text-wp-muted">Members</dt>
+        <dd class="text-2xl font-bold text-wp-text">{stats.members}</dd>
+      </div>
+      <div>
+        <dt class="text-xs uppercase tracking-wide text-wp-muted">Active Squads</dt>
+        <dd class="text-2xl font-bold text-wp-text">{stats.squads}</dd>
+      </div>
+    </dl>
+  </section>
 
-    <div class="command-panel" aria-label="Quick commands">
-      <a href="#join">[ enter ]</a>
-      <a href={links.github} target="_blank" rel="noreferrer">[ github ]</a>
-      <a href={links.registry} target="_blank" rel="noreferrer">[ docs ]</a>
-      <a href={links.telegram} target="_blank" rel="noreferrer">[ telegram ]</a>
+  <section class="page-container py-16 md:py-20">
+    <h2 class="section-title">Why Join</h2>
+    <div class="grid gap-6 md:grid-cols-3">
+      <article class="rounded-lg border border-wp-border bg-wp-surface p-6">
+        <h3 class="mb-3 text-xl font-semibold text-wp-accent">Learn</h3>
+        <p class="text-sm leading-relaxed text-wp-muted">
+          Gain real team experience. Work with actual projects, discussions, reviews and deliveries.
+        </p>
+      </article>
+      <article class="rounded-lg border border-wp-border bg-wp-surface p-6">
+        <h3 class="mb-3 text-xl font-semibold text-wp-accent">Build</h3>
+        <p class="text-sm leading-relaxed text-wp-muted">
+          Create products that solve real problems. Not exercises. Not toy projects.
+        </p>
+      </article>
+      <article class="rounded-lg border border-wp-border bg-wp-surface p-6">
+        <h3 class="mb-3 text-xl font-semibold text-wp-accent">Grow</h3>
+        <p class="text-sm leading-relaxed text-wp-muted">
+          Expand your network, portfolio and practical skills.
+        </p>
+      </article>
+    </div>
+    <p class="mt-8 text-center text-wp-muted">
+      No subscriptions. No courses. No hidden payments.<br />
+      <span class="text-wp-text">Only real projects and real collaboration.</span>
+    </p>
+  </section>
+
+  <section class="page-container py-16 md:py-20">
+    <h2 class="section-title">What We Build</h2>
+    <p class="section-lead">
+      WildPointer develops open-source software products and technology solutions.
+    </p>
+    <ul class="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        [
+          'AI applications',
+          'automation systems',
+          'developer tools',
+          'productivity software',
+          'community products',
+          'infrastructure solutions'
+        ].map((item) => (
+          <li class="rounded border border-wp-border bg-wp-surface px-4 py-3 text-sm text-wp-muted">
+            {item}
+          </li>
+        ))
+      }
+    </ul>
+    <p class="mt-6 text-sm text-wp-muted">All results remain open-source.</p>
+  </section>
+
+  <section class="page-container py-16 md:py-20">
+    <h2 class="section-title">Product Lifecycle</h2>
+    <p class="section-lead">
+      WildPointer uses a transparent lifecycle. Contributors can join at any stage.
+    </p>
+    <StageNavigator stages={stages} />
+    <p class="mt-6">
+      <a href={withBase('sdlc/')} class="text-sm font-medium text-wp-accent hover:underline">
+        Explore full SDLC →
+      </a>
+    </p>
+  </section>
+
+  <section class="page-container py-16 md:py-20">
+    <div class="mb-8 flex flex-wrap items-end justify-between gap-4">
+      <h2 class="section-title mb-0">Active Projects</h2>
+      <a href={withBase('projects/')} class="text-sm font-medium text-wp-accent hover:underline">
+        View All Projects
+      </a>
+    </div>
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {featuredProjects.map((project) => <ProjectCard project={project} />)}
     </div>
   </section>
 
-  <section id="about" class="section-block" aria-labelledby="about-title">
-    <p class="section-path">/about</p>
-    <h2 id="about-title">open organization, not a closed company</h2>
-
-    <div class="copy-stack">
-      <p>
-        WildPointer is a community where people create real technological products together.
-        We work from real requests, pains and business problems — then turn them into open-source products.
-      </p>
-      <p>
-        Everything important should be visible: processes, discussions, decisions, code and artifacts.
-        Participation is voluntary. Contribution defines influence.
-      </p>
+  <section class="page-container py-16 md:py-20">
+    <h2 class="section-title">How You Can Contribute</h2>
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      {homeRoles.map((role) => <RoleCard role={role} />)}
     </div>
-
-    <div class="signal-row" aria-label="WildPointer signals">
-      <span>no subscriptions</span>
-      <span>no gatekeeping</span>
-      <span>no hidden layers</span>
-      <span>real practice</span>
-    </div>
+    <p class="mt-6">
+      <a href={withBase('roles/')} class="text-sm font-medium text-wp-accent hover:underline">
+        View all roles →
+      </a>
+    </p>
   </section>
 
-  <section id="principles" class="section-block" aria-labelledby="principles-title">
-    <p class="section-path">/principles</p>
-    <h2 id="principles-title">rules of the system</h2>
-
-    <div class="terminal-list">
-      <article>
-        <span>&gt;</span>
-        <div>
-          <h3>transparency</h3>
-          <p>Processes, decisions and rationale are open by default.</p>
-        </div>
-      </article>
-
-      <article>
-        <span>&gt;</span>
-        <div>
-          <h3>voluntary participation</h3>
-          <p>Everyone defines their own level of involvement.</p>
-        </div>
-      </article>
-
-      <article>
-        <span>&gt;</span>
-        <div>
-          <h3>practical value</h3>
-          <p>We build things that can be used in real life.</p>
-        </div>
-      </article>
-
-      <article>
-        <span>&gt;</span>
-        <div>
-          <h3>open-source by default</h3>
-          <p>Results are available for free use, learning and contribution.</p>
-        </div>
-      </article>
-    </div>
+  <section class="page-container pb-20">
+    <JoinCTA />
   </section>
-
-  <section id="workflow" class="section-block" aria-labelledby="workflow-title">
-    <p class="section-path">/workflow</p>
-    <h2 id="workflow-title">how work moves</h2>
-
-    <pre class="pipeline" aria-label="WildPointer software development lifecycle">DISCOVERY
-    ↓
-PRODUCT DESIGN
-    ↓
-PLANNING
-    ↓
-ARCHITECTURE
-    ↓
-BACKLOG
-    ↓
-DEVELOPMENT
-    ↓
-QA
-    ↓
-DELIVERY
-    ↓
-OPERATIONS
-    ↓
-FEEDBACK
-    ↺</pre>
-
-    <p class="small-note">Anyone can join at any stage. The pipeline is cyclical, not bureaucratic.</p>
-  </section>
-
-  <section id="roles" class="section-block" aria-labelledby="roles-title">
-    <p class="section-path">/roles</p>
-    <h2 id="roles-title">roles are functions, not ranks</h2>
-
-    <div class="roles-grid">
-      <article>
-        <h3>[ vision lead ]</h3>
-        <p>Purpose, principles and long-term direction.</p>
-      </article>
-
-      <article>
-        <h3>[ coordinator ]</h3>
-        <p>Flow, planning, transparency and blockers.</p>
-      </article>
-
-      <article>
-        <h3>[ community steward ]</h3>
-        <p>Onboarding, culture, engagement and communication.</p>
-      </article>
-
-      <article>
-        <h3>[ product lead ]</h3>
-        <p>Product value, roadmap and user problems.</p>
-      </article>
-
-      <article>
-        <h3>[ maintainers ]</h3>
-        <p>Technical decisions, reviews and product sustainability.</p>
-      </article>
-
-      <article>
-        <h3>[ contributors ]</h3>
-        <p>Ideas, code, research, design, QA, docs and discussion.</p>
-      </article>
-    </div>
-  </section>
-
-  <section id="projects" class="section-block" aria-labelledby="projects-title">
-    <p class="section-path">/projects</p>
-    <h2 id="projects-title">active memory</h2>
-
-    <pre class="filesystem">/projects
-    ENT001.manifesto
-    ENT002.roles
-    PRC000.sdlc
-    open-ideas
-    backlog</pre>
-
-    <p class="small-note">Later this block can be connected to GitHub repositories and issues.</p>
-  </section>
-
-  <section id="join" class="section-block join-block" aria-labelledby="join-title">
-    <p class="section-path">/join</p>
-    <h2 id="join-title">first contribution path</h2>
-
-    <ol class="steps">
-      <li>read the manifesto</li>
-      <li>join the communication channel</li>
-      <li>open the document registry</li>
-      <li>choose a project or problem</li>
-      <li>take the first small task</li>
-    </ol>
-
-    <div class="command-panel">
-      <a href={links.telegram} target="_blank" rel="noreferrer">[ telegram ]</a>
-      <a href={links.github} target="_blank" rel="noreferrer">[ github ]</a>
-      <a href={links.miro} target="_blank" rel="noreferrer">[ miro ]</a>
-      <a href={links.registry} target="_blank" rel="noreferrer">[ onboarding ]</a>
-    </div>
-  </section>
-
-  <section id="resources" class="section-block" aria-labelledby="resources-title">
-    <p class="section-path">/resources</p>
-    <h2 id="resources-title">system links</h2>
-
-    <pre class="filesystem">/docs
-    manifesto
-    roles
-    sdlc
-    onboarding
-
-/community
-    telegram
-    linkedin
-    github
-
-/workspace
-    google-drive
-    miro
-    backlog</pre>
-
-    <div class="resource-grid">
-      <a href={links.linkedin} target="_blank" rel="noreferrer">linkedin.com/company/wildpointer</a>
-      <a href={links.telegram} target="_blank" rel="noreferrer">telegram channel</a>
-      <a href={links.github} target="_blank" rel="noreferrer">github.com/wildwildpointer</a>
-      <a href={links.registry} target="_blank" rel="noreferrer">document registry</a>
-      <a href={links.drive} target="_blank" rel="noreferrer">google drive</a>
-      <a href={links.miro} target="_blank" rel="noreferrer">miro board</a>
-      <a href={links.email}>wildwildpointer@gmail.com</a>
-    </div>
-  </section>
-
-  <footer class="site-footer">
-    <span>*WP // WildPointer</span>
-    <span>open organization // built with Astro + GitHub Pages</span>
-  </footer>
 </Layout>

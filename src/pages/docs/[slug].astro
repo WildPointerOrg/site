@@ -1,0 +1,37 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import MarkdownContent from '../../components/MarkdownContent.astro';
+import { getCollection, render } from 'astro:content';
+import { documentSlug } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const documents = await getCollection('documents');
+  return documents.map((doc) => ({
+    params: { slug: documentSlug(doc) },
+    props: { doc }
+  }));
+}
+
+const { doc } = Astro.props;
+const { Content } = await render(doc);
+---
+
+<Layout title={`${doc.data.title} — WildPointer`} description={doc.data.summary}>
+  <article class="page-container py-12 md:py-16">
+    <header class="mb-8 border-b border-wp-border pb-6">
+      <p class="mb-2 font-mono text-sm text-wp-muted">{doc.data.docId}</p>
+      <h1 class="section-title mb-2">{doc.data.title}</h1>
+      <p class="text-wp-muted">{doc.data.summary}</p>
+      {
+        doc.data.url && (
+          <p class="mt-4">
+            <a href={doc.data.url} target="_blank" rel="noreferrer" class="text-wp-accent hover:underline">
+              Open external document →
+            </a>
+          </p>
+        )
+      }
+    </header>
+    <MarkdownContent Content={Content} />
+  </article>
+</Layout>

@@ -1,0 +1,39 @@
+---
+import type { StageEntry } from '../lib/content';
+import { stageSlug } from '../lib/content';
+import { withBase } from '../lib/paths';
+
+interface Props {
+  stages: StageEntry[];
+}
+
+const { stages } = Astro.props;
+---
+
+<nav class="stage-nav overflow-x-auto pb-2" aria-label="Product lifecycle stages">
+  <ol class="flex min-w-max gap-2 md:gap-3">
+    {stages.map((stage) => (
+      <li class="w-36 shrink-0 md:w-40">
+        <a
+          href={withBase(`sdlc/${stageSlug(stage)}/`)}
+          class="group flex h-full flex-col rounded-lg border border-wp-border bg-wp-surface p-3 transition hover:border-wp-accent/50"
+        >
+          <span class="mb-1 text-xs font-medium text-wp-accent">{stage.data.order}</span>
+          <span class="mb-2 text-sm font-semibold leading-tight text-wp-text group-hover:text-wp-accent">
+            {stage.data.title}
+          </span>
+          <span class="line-clamp-3 text-xs leading-relaxed text-wp-muted">
+            {stage.data.shortDescription}
+          </span>
+        </a>
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  .stage-nav {
+    scrollbar-width: thin;
+    scrollbar-color: #30363d transparent;
+  }
+</style>

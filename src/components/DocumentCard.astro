@@ -1,0 +1,29 @@
+---
+import type { DocumentEntry } from '../lib/content';
+import { documentSlug } from '../lib/content';
+import { withBase } from '../lib/paths';
+
+interface Props {
+  document: DocumentEntry;
+}
+
+const { document: doc } = Astro.props;
+const { title, docId, category, summary, url } = doc.data;
+const docHref = url || withBase(`docs/${documentSlug(doc)}/`);
+const external = Boolean(url);
+---
+
+<article class="rounded-lg border border-wp-border bg-wp-surface p-4">
+  <div class="mb-2 flex flex-wrap items-center gap-2">
+    <span class="rounded border border-wp-border px-2 py-0.5 font-mono text-xs text-wp-muted">
+      {docId}
+    </span>
+    <span class="text-xs uppercase tracking-wide text-wp-accent">{category}</span>
+  </div>
+  <h3 class="mb-2 font-semibold text-wp-text">
+    <a href={docHref} class="hover:text-wp-accent" {...(external ? { target: '_blank', rel: 'noreferrer' } : {})}>
+      {title}
+    </a>
+  </h3>
+  <p class="text-sm text-wp-muted">{summary}</p>
+</article>

@@ -1,0 +1,791 @@
+# WildPointer Website Content Structure Specification
+
+Version: 1.0
+
+## Goal
+
+Define the content file structure for the WildPointer website.
+
+The website must be content-driven. Pages should not contain hardcoded project, role, or SDLC data.
+
+Cursor must implement Astro Content Collections so that new content can be added by creating or editing Markdown / MDX files.
+
+---
+
+# Content Directory
+
+Use the following structure:
+
+```text
+src/content/
+  projects/
+    notes-ai.md
+    ai-interview-assistant.md
+
+  stages/
+    idea-forming.md
+    discovery.md
+    product-design.md
+    planning.md
+    architecture.md
+    backlog.md
+    development.md
+    qa.md
+    delivery.md
+    operations.md
+    feedback.md
+
+  roles/
+    vision-lead.md
+    coordinator.md
+    community-steward.md
+    product-lead.md
+    maintainer.md
+
+  documents/
+    manifesto.md
+    roles.md
+    sdlc.md
+    coordinator-instruction.md
+```
+
+---
+
+# Astro Content Collections
+
+Create:
+
+```text
+src/content/config.ts
+```
+
+Use collections:
+
+* projects
+* stages
+* roles
+* documents
+
+---
+
+# Project Content Schema
+
+Each project file must describe one WildPointer project.
+
+Example file:
+
+```text
+src/content/projects/notes-ai.md
+```
+
+Frontmatter:
+
+```yaml
+title: "NotesAI"
+slug: "notes-ai"
+tagline: "AI assistant for personal knowledge and notes"
+status: "active"
+stage: "development"
+stageLabel: "Development"
+summary: "NotesAI helps users store, search, and interact with personal notes using natural language."
+startedAt: "2026-01-01"
+
+neededRoles:
+  - "Backend Developer"
+  - "Frontend Developer"
+  - "QA Engineer"
+  - "Product Lead"
+
+links:
+  github: "https://github.com/wildpointerorg/notes-ai"
+  docs: "https://github.com/wildpointerorg/notes-ai/docs"
+  discussions: "https://github.com/wildpointerorg/notes-ai/discussions"
+  roadmap: ""
+
+contacts:
+  coordinator: "TBD"
+  telegram: ""
+  email: ""
+
+featured: true
+order: 1
+```
+
+Body:
+
+```md
+## Project Goal
+
+Describe the problem this project solves.
+
+## Expected Value
+
+Describe the value for users and for the community.
+
+## Current Focus
+
+Describe what the squad is working on now.
+
+## Open Questions
+
+List unresolved questions.
+```
+
+---
+
+## Project Field Rules
+
+### title
+
+Human-readable project name.
+
+### slug
+
+URL-safe identifier.
+
+Used for:
+
+```text
+/projects/[slug]
+```
+
+### status
+
+Allowed values:
+
+```text
+active
+paused
+released
+archived
+```
+
+### stage
+
+Allowed values:
+
+```text
+idea-forming
+discovery
+product-design
+planning
+architecture
+backlog
+development
+qa
+delivery
+operations
+feedback
+```
+
+### stageLabel
+
+Human-readable stage name.
+
+### summary
+
+Short description for project cards.
+
+Maximum recommended length:
+
+```text
+160 characters
+```
+
+### startedAt
+
+ISO date.
+
+Example:
+
+```text
+2026-01-01
+```
+
+### neededRoles
+
+List of roles or contribution types currently needed.
+
+### links
+
+External project resources.
+
+All fields are optional, but keys should exist.
+
+### contacts
+
+Contact information for joining the project.
+
+### featured
+
+Boolean.
+
+Featured projects appear on the home page.
+
+### order
+
+Number used for sorting.
+
+---
+
+# Stage Content Schema
+
+Each SDLC stage must be stored as a separate file.
+
+Example:
+
+```text
+src/content/stages/discovery.md
+```
+
+Frontmatter:
+
+```yaml
+title: "Discovery"
+slug: "discovery"
+order: 2
+shortDescription: "Validate the problem, users, and product value before building."
+purpose: "Understand whether the idea solves a real problem and whether it is worth building."
+mainOutput: "Go / No-Go decision"
+
+activities:
+  - "Conduct user interviews"
+  - "Create and validate hypotheses"
+  - "Define product value"
+  - "Create MVP or prototype"
+
+outputs:
+  - "Interview reports"
+  - "Hypotheses and validation results"
+  - "Product value description"
+  - "Prototype or MVP"
+  - "Go / No-Go decision"
+
+requiredRoles:
+  - "Product Lead"
+  - "Product Researcher"
+  - "Community Members"
+
+relatedDocuments:
+  - title: "PRC001.000 SDLC"
+    url: ""
+```
+
+Body:
+
+```md
+## When to Join This Stage
+
+Join this stage if you like research, interviews, analysis, product thinking, or early experiments.
+
+## What Good Work Looks Like
+
+Good work at this stage is transparent, evidence-based, and focused on real user problems.
+
+## Typical Questions
+
+- Who has this problem?
+- How painful is it?
+- What solutions already exist?
+- Why should we build this?
+```
+
+---
+
+## Required Stage Files
+
+Create files for all stages:
+
+```text
+idea-forming.md
+discovery.md
+product-design.md
+planning.md
+architecture.md
+backlog.md
+development.md
+qa.md
+delivery.md
+operations.md
+feedback.md
+```
+
+---
+
+# Stage List Content
+
+Use the following canonical stage list:
+
+```yaml
+- title: "Idea Forming"
+  slug: "idea-forming"
+  order: 1
+  mainOutput: "Ideas List"
+
+- title: "Discovery"
+  slug: "discovery"
+  order: 2
+  mainOutput: "Go / No-Go Decision"
+
+- title: "Product Design"
+  slug: "product-design"
+  order: 3
+  mainOutput: "UX/UI Prototype"
+
+- title: "Planning"
+  slug: "planning"
+  order: 4
+  mainOutput: "Roadmap and Epics"
+
+- title: "Architecture"
+  slug: "architecture"
+  order: 5
+  mainOutput: "Architecture and ADR/RFC"
+
+- title: "Backlog"
+  slug: "backlog"
+  order: 6
+  mainOutput: "Issues and Task Structure"
+
+- title: "Development"
+  slug: "development"
+  order: 7
+  mainOutput: "Code and Pull Requests"
+
+- title: "QA"
+  slug: "qa"
+  order: 8
+  mainOutput: "Test Cases and Bug Reports"
+
+- title: "Delivery"
+  slug: "delivery"
+  order: 9
+  mainOutput: "Release and Deployment"
+
+- title: "Operations"
+  slug: "operations"
+  order: 10
+  mainOutput: "Monitoring and Support"
+
+- title: "Feedback"
+  slug: "feedback"
+  order: 11
+  mainOutput: "User Feedback and New Hypotheses"
+```
+
+---
+
+# Role Content Schema
+
+Each role must be stored as a separate file.
+
+Example:
+
+```text
+src/content/roles/coordinator.md
+```
+
+Frontmatter:
+
+```yaml
+title: "Coordinator"
+slug: "coordinator"
+order: 2
+mission: "Support project operations and workflow continuity."
+summary: "Coordinator helps squads organize infrastructure, permissions, repositories, project boards, and collaboration spaces."
+traditionalEquivalent: "COO, Program Manager, Delivery Manager, Scrum Master"
+
+responsibilities:
+  - "Create repositories"
+  - "Create folders and workspaces"
+  - "Manage permissions"
+  - "Create GitHub teams and projects"
+  - "Organize collaboration spaces"
+  - "Archive inactive materials"
+
+limitations:
+  - "Does not make product decisions"
+  - "Does not make technical decisions"
+  - "Does not manage people"
+
+relatedStages:
+  - "idea-forming"
+  - "discovery"
+  - "planning"
+  - "development"
+  - "delivery"
+  - "operations"
+
+relatedDocuments:
+  - title: "INS001.000 Coordinator"
+    url: ""
+```
+
+Body:
+
+```md
+## When This Role Is Needed
+
+Coordinator is needed whenever a squad requires operational support.
+
+## Typical Requests
+
+- Create a repository
+- Grant access
+- Create a project folder
+- Configure GitHub Projects
+- Share links to project resources
+
+## How To Start
+
+Introduce yourself in the community and ask which squad needs operational support.
+```
+
+---
+
+## Required Role Files
+
+Create:
+
+```text
+vision-lead.md
+coordinator.md
+community-steward.md
+product-lead.md
+maintainer.md
+```
+
+---
+
+# Document Content Schema
+
+Documentation references must also be content-driven.
+
+Example:
+
+```text
+src/content/documents/manifesto.md
+```
+
+Frontmatter:
+
+```yaml
+title: "Manifesto"
+docId: "ENT001.000"
+slug: "manifesto"
+category: "ENT"
+summary: "Mission, philosophy, and core principles of WildPointer."
+url: ""
+order: 1
+```
+
+Body:
+
+```md
+The manifesto explains why WildPointer exists, how the community works, and what principles guide the organization.
+```
+
+---
+
+## Document Categories
+
+Allowed categories:
+
+```text
+ENT
+PRC
+INS
+```
+
+Where:
+
+```text
+ENT = Organizational and governing documents
+PRC = Processes
+INS = Role instructions
+```
+
+---
+
+# Initial Documents
+
+Create initial document entries:
+
+```yaml
+- docId: "ENT000.000"
+  title: "Doc Registry"
+  category: "ENT"
+
+- docId: "ENT001.000"
+  title: "Manifesto"
+  category: "ENT"
+
+- docId: "ENT002.000"
+  title: "Roles"
+  category: "ENT"
+
+- docId: "PRC001.000"
+  title: "SDLC"
+  category: "PRC"
+
+- docId: "PRC002.000"
+  title: "IdeaDescription Template"
+  category: "PRC"
+
+- docId: "INS001.000"
+  title: "Coordinator"
+  category: "INS"
+```
+
+---
+
+# TypeScript Requirements
+
+Create TypeScript types or infer them from Astro Content Collections.
+
+Required helper functions:
+
+```ts
+getAllProjects()
+getFeaturedProjects()
+getProjectsByStage(stageSlug)
+getAllStages()
+getStageBySlug(slug)
+getAllRoles()
+getRoleBySlug(slug)
+getAllDocuments()
+```
+
+Sorting rules:
+
+* stages by order
+* roles by order
+* projects by featured first, then order, then title
+* documents by category, then order
+
+---
+
+# Routing Requirements
+
+Pages must use content collections.
+
+## Projects
+
+```text
+/projects
+/projects/[slug]
+```
+
+Project profile pages are generated from:
+
+```text
+src/content/projects/*.md
+```
+
+## SDLC
+
+```text
+/sdlc
+/sdlc/[stage]
+```
+
+Stage pages are generated from:
+
+```text
+src/content/stages/*.md
+```
+
+## Roles
+
+```text
+/roles
+/roles/[slug]
+```
+
+Role pages are generated from:
+
+```text
+src/content/roles/*.md
+```
+
+## Documents
+
+Optional:
+
+```text
+/docs
+/docs/[slug]
+```
+
+Document pages are generated from:
+
+```text
+src/content/documents/*.md
+```
+
+---
+
+# UI Components Using Content
+
+Create reusable components:
+
+```text
+src/components/ProjectCard.astro
+src/components/StageCard.astro
+src/components/StageNavigator.astro
+src/components/RoleCard.astro
+src/components/DocumentCard.astro
+src/components/JoinCTA.astro
+```
+
+---
+
+# Content Validation
+
+Cursor must configure schema validation in:
+
+```text
+src/content/config.ts
+```
+
+Validation requirements:
+
+* required strings must not be empty
+* stage must be one of allowed stage slugs
+* status must be one of allowed project statuses
+* order must be number
+* featured must be boolean
+* links and contacts must be optional objects
+* arrays must default to empty arrays where possible
+
+---
+
+# Example Astro Content Config
+
+```ts
+import { defineCollection, z } from "astro:content";
+
+const stageSlugs = [
+  "idea-forming",
+  "discovery",
+  "product-design",
+  "planning",
+  "architecture",
+  "backlog",
+  "development",
+  "qa",
+  "delivery",
+  "operations",
+  "feedback",
+] as const;
+
+const projectStatuses = [
+  "active",
+  "paused",
+  "released",
+  "archived",
+] as const;
+
+const projects = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: z.string(),
+    slug: z.string(),
+    tagline: z.string().optional(),
+    status: z.enum(projectStatuses),
+    stage: z.enum(stageSlugs),
+    stageLabel: z.string(),
+    summary: z.string(),
+    startedAt: z.string().optional(),
+    neededRoles: z.array(z.string()).default([]),
+    links: z.object({
+      github: z.string().optional(),
+      docs: z.string().optional(),
+      discussions: z.string().optional(),
+      roadmap: z.string().optional(),
+    }).optional(),
+    contacts: z.object({
+      coordinator: z.string().optional(),
+      telegram: z.string().optional(),
+      email: z.string().optional(),
+    }).optional(),
+    featured: z.boolean().default(false),
+    order: z.number().default(999),
+  }),
+});
+
+const stages = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: z.string(),
+    slug: z.enum(stageSlugs),
+    order: z.number(),
+    shortDescription: z.string(),
+    purpose: z.string(),
+    mainOutput: z.string(),
+    activities: z.array(z.string()).default([]),
+    outputs: z.array(z.string()).default([]),
+    requiredRoles: z.array(z.string()).default([]),
+    relatedDocuments: z.array(z.object({
+      title: z.string(),
+      url: z.string().optional(),
+    })).default([]),
+  }),
+});
+
+const roles = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: z.string(),
+    slug: z.string(),
+    order: z.number(),
+    mission: z.string(),
+    summary: z.string(),
+    traditionalEquivalent: z.string().optional(),
+    responsibilities: z.array(z.string()).default([]),
+    limitations: z.array(z.string()).default([]),
+    relatedStages: z.array(z.enum(stageSlugs)).default([]),
+    relatedDocuments: z.array(z.object({
+      title: z.string(),
+      url: z.string().optional(),
+    })).default([]),
+  }),
+});
+
+const documents = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: z.string(),
+    docId: z.string(),
+    slug: z.string(),
+    category: z.enum(["ENT", "PRC", "INS"]),
+    summary: z.string(),
+    url: z.string().optional(),
+    order: z.number().default(999),
+  }),
+});
+
+export const collections = {
+  projects,
+  stages,
+  roles,
+  documents,
+};
+```
+
+---
+
+# Acceptance Criteria
+
+The task is complete when:
+
+1. All content collections are created.
+2. Content schema validation works.
+3. Projects are rendered from Markdown files.
+4. SDLC stages are rendered from Markdown files.
+5. Roles are rendered from Markdown files.
+6. Documents are rendered from Markdown files or listed from collection data.
+7. Adding a new project Markdown file automatically creates a new project page.
+8. Home page uses featured projects from content collection.
+9. SDLC navigation uses stage content collection.
+10. No project, stage, role or document data is hardcoded inside page templates.

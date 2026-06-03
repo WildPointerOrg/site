@@ -1,0 +1,24 @@
+---
+import type { RoleEntry } from '../lib/content';
+import { roleSlug } from '../lib/content';
+import { withBase } from '../lib/paths';
+
+interface Props {
+  role: RoleEntry;
+}
+
+const { role } = Astro.props;
+const { title, summary } = role.data;
+const roleHref = withBase(`roles/${roleSlug(role)}/`);
+---
+
+<article class="flex h-full flex-col rounded-lg border border-wp-border bg-wp-surface p-5 transition hover:border-wp-accent/40">
+  <h3 class="mb-2 text-lg font-semibold text-wp-text">{title}</h3>
+  <p class="mb-4 flex-1 text-sm leading-relaxed text-wp-muted">{summary}</p>
+  <a
+    href={roleHref}
+    class="inline-flex w-fit items-center text-sm font-medium text-wp-accent hover:underline"
+  >
+    Read More →
+  </a>
+</article>

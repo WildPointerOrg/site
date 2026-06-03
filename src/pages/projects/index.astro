@@ -1,0 +1,88 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { getAllProjects } from '../../lib/content';
+
+const projects = await getAllProjects();
+
+type FilterKey = 'all' | 'idea-forming' | 'discovery' | 'planning' | 'development' | 'released' | 'archived';
+
+const filters: { key: FilterKey; label: string }[] = [
+  { key: 'all', label: 'All' },
+  { key: 'idea-forming', label: 'Idea Forming' },
+  { key: 'discovery', label: 'Discovery' },
+  { key: 'planning', label: 'Planning' },
+  { key: 'development', label: 'Development' },
+  { key: 'released', label: 'Released' },
+  { key: 'archived', label: 'Archived' }
+];
+---
+
+<Layout title="Projects — WildPointer" description="Explore projects currently being developed inside WildPointer.">
+  <div class="page-container py-12 md:py-16">
+    <h1 class="section-title">Projects</h1>
+    <p class="section-lead">Explore projects currently being developed inside WildPointer.</p>
+
+    <div class="mb-8 flex flex-wrap gap-2" id="project-filters" role="tablist" aria-label="Filter projects">
+      {
+        filters.map((filter, index) => (
+          <button
+            type="button"
+            data-filter={filter.key}
+            class:list={[
+              'rounded-full border px-3 py-1 text-sm transition',
+              index === 0
+                ? 'border-wp-accent bg-wp-accent/10 text-wp-accent'
+                : 'border-wp-border text-wp-muted hover:border-wp-accent/50 hover:text-wp-text'
+            ]}
+            role="tab"
+            aria-selected={index === 0}
+          >
+            {filter.label}
+          </button>
+        ))
+      }
+    </div>
+
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3" id="project-grid">
+      {
+        projects.map((project) => (
+          <div data-stage={project.data.stage} data-status={project.data.status} class="project-item">
+            <ProjectCard project={project} showLinks />
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</Layout>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('#project-filters button');
+  const items = document.querySelectorAll<HTMLElement>('.project-item');
+
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const filter = button.dataset.filter ?? 'all';
+
+      buttons.forEach((btn) => {
+        const active = btn === button;
+        btn.setAttribute('aria-selected', String(active));
+        btn.classList.toggle('border-wp-accent', active);
+        btn.classList.toggle('bg-wp-accent/10', active);
+        btn.classList.toggle('text-wp-accent', active);
+        btn.classList.toggle('border-wp-border', !active);
+        btn.classList.toggle('text-wp-muted', !active);
+      });
+
+      items.forEach((item) => {
+        const stage = item.dataset.stage;
+        const status = item.dataset.status;
+        let visible = filter === 'all';
+        if (!visible && filter === 'released') visible = status === 'released';
+        else if (!visible && filter === 'archived') visible = status === 'archived';
+        else if (!visible) visible = stage === filter;
+        item.classList.toggle('hidden', !visible);
+      });
+    });
+  });
+</script>

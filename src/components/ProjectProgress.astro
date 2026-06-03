@@ -1,0 +1,37 @@
+---
+import type { ProjectEntry, StageEntry } from '../lib/content';
+import { getStageIndex } from '../lib/content';
+
+interface Props {
+  project: ProjectEntry;
+  stages: StageEntry[];
+}
+
+const { project, stages } = Astro.props;
+const currentIndex = getStageIndex(project.data.stage, stages);
+---
+
+<div class="overflow-x-auto pb-2" aria-label="SDLC progress">
+  <ol class="flex min-w-max items-center gap-1">
+    {stages.map((stage, index) => {
+      const state =
+        index < currentIndex ? 'done' : index === currentIndex ? 'current' : 'future';
+      const symbol = state === 'done' ? '✓' : state === 'current' ? '●' : '○';
+      const color =
+        state === 'done'
+          ? 'text-wp-accent'
+          : state === 'current'
+            ? 'text-wp-accent font-semibold'
+            : 'text-wp-muted';
+
+      return (
+        <li class={`flex flex-col items-center px-2 text-center ${color}`} title={stage.data.title}>
+          <span class="text-lg leading-none" aria-hidden="true">
+            {symbol}
+          </span>
+          <span class="mt-1 hidden text-[10px] sm:block md:text-xs">{stage.data.title}</span>
+        </li>
+      );
+    })}
+  </ol>
+</div>

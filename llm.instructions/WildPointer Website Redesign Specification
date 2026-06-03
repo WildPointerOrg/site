@@ -1,0 +1,861 @@
+# WildPointer Website Redesign Specification
+
+Version: 1.0
+
+## Goal
+
+Redesign the WildPointer website and transform it into the main entry point for the community.
+
+The website must answer the following questions within the first 30 seconds:
+
+1. What is WildPointer?
+2. What does the community do?
+3. Why should someone join?
+4. What projects are currently active?
+5. How can a person start contributing today?
+
+The website should focus on participation and projects rather than organizational bureaucracy.
+
+---
+
+# Technology Requirements
+
+## Stack
+
+* Astro
+* TailwindCSS
+* Markdown / MDX content collections
+* GitHub Pages deployment
+
+## Design Principles
+
+### Visual Style
+
+Modern engineering community style.
+
+Inspiration:
+
+* GitHub
+* Vercel
+* Open Source Initiative
+* CNCF
+* Supabase
+
+Avoid:
+
+* corporate stock photos
+* large walls of text
+* complex diagrams
+* bureaucratic appearance
+
+### Core Values
+
+* openness
+* transparency
+* collaboration
+* simplicity
+
+---
+
+# Site Structure
+
+## Main Navigation
+
+Home
+
+Projects
+
+SDLC
+
+Roles
+
+Join
+
+GitHub
+
+JOIN button must always be visible.
+
+---
+
+# HOME PAGE
+
+URL:
+
+/
+
+---
+
+## Section 1 — Hero
+
+Large title:
+
+# Build Real Products Together
+
+Subtitle:
+
+WildPointer is an open volunteer community where engineers, product managers, designers, researchers and enthusiasts create real open-source products together.
+
+Buttons:
+
+JOIN THE COMMUNITY
+
+VIEW PROJECTS
+
+Statistics block:
+
+Projects: dynamic value
+
+Members: dynamic value
+
+Active Squads: dynamic value
+
+---
+
+## Section 2 — Why WildPointer
+
+Title:
+
+# Why Join
+
+Three cards.
+
+Card 1:
+
+## Learn
+
+Gain real team experience.
+
+Work with actual projects, discussions, reviews and deliveries.
+
+Card 2:
+
+## Build
+
+Create products that solve real problems.
+
+Not exercises. Not toy projects.
+
+Card 3:
+
+## Grow
+
+Expand your network, portfolio and practical skills.
+
+Text below:
+
+No subscriptions.
+No courses.
+No hidden payments.
+
+Only real projects and real collaboration.
+
+---
+
+## Section 3 — What We Build
+
+Title:
+
+# What We Build
+
+Text:
+
+WildPointer develops open-source software products and technology solutions.
+
+Projects may include:
+
+* AI applications
+* automation systems
+* developer tools
+* productivity software
+* community products
+* infrastructure solutions
+
+All results remain open-source.
+
+---
+
+## Section 4 — How We Work
+
+Title:
+
+# Product Lifecycle
+
+Interactive SDLC timeline.
+
+Stages:
+
+Idea Forming
+
+Discovery
+
+Product Design
+
+Planning
+
+Architecture
+
+Backlog
+
+Development
+
+QA
+
+Delivery
+
+Operations
+
+Feedback
+
+Each stage links to:
+
+/sdlc/{stage}
+
+Short description displayed under each stage.
+
+---
+
+## Section 5 — Active Projects
+
+Title:
+
+# Active Projects
+
+Display project cards.
+
+Fields:
+
+Project Name
+
+Short Description
+
+Current Stage
+
+Needed Roles
+
+View Project button
+
+Show first 6 projects.
+
+Button:
+
+View All Projects
+
+---
+
+## Section 6 — Open Roles
+
+Title:
+
+# How You Can Contribute
+
+Cards:
+
+Product Lead
+
+Coordinator
+
+Community Steward
+
+Maintainer
+
+Each card contains:
+
+Short description
+
+Read More button
+
+---
+
+## Section 7 — Join CTA
+
+Large highlighted section.
+
+Title:
+
+# Ready To Build Something Real?
+
+Text:
+
+If our principles resonate with you, you are already part of WildPointer.
+
+Buttons:
+
+Join Community
+
+View Projects
+
+---
+
+# PROJECTS PAGE
+
+URL:
+
+/projects
+
+Title:
+
+# Projects
+
+Description:
+
+Explore projects currently being developed inside WildPointer.
+
+Filters:
+
+All
+
+Idea Forming
+
+Discovery
+
+Planning
+
+Development
+
+Released
+
+Archived
+
+Each project card contains:
+
+Project Name
+
+Description
+
+Current Stage
+
+Needed Roles
+
+Links
+
+---
+
+# PROJECT PROFILE PAGE
+
+URL:
+
+/projects/[slug]
+
+Each project uses Markdown content.
+
+---
+
+## Header
+
+Project Name
+
+Tagline
+
+Description
+
+Stage Badge
+
+---
+
+## Current Status
+
+Example:
+
+Current Stage:
+Development
+
+Started:
+January 2026
+
+---
+
+## Project Goal
+
+Describe the problem and expected value.
+
+---
+
+## Progress
+
+Visual SDLC progress bar.
+
+Completed stages:
+
+✓
+
+Current stage:
+
+●
+
+Future stages:
+
+○
+
+---
+
+## Needed Contributors
+
+Example:
+
+Backend Developer
+
+Frontend Developer
+
+QA Engineer
+
+Product Lead
+
+---
+
+## Resources
+
+GitHub Repository
+
+Documentation
+
+Discussions
+
+Roadmap
+
+---
+
+## Contacts
+
+Project Coordinator
+
+Telegram
+
+GitHub Discussions
+
+---
+
+# SDLC PAGE
+
+URL:
+
+/sdlc
+
+Title:
+
+# Product Development Lifecycle
+
+Description:
+
+WildPointer uses a transparent lifecycle that allows contributors to join projects at any stage.
+
+Display all stages as cards.
+
+---
+
+# SDLC STAGE PAGE
+
+URL:
+
+/sdlc/[stage]
+
+Example:
+
+/sdlc/discovery
+
+Structure:
+
+Stage Name
+
+Purpose
+
+Activities
+
+Outputs
+
+Required Roles
+
+Current Projects
+
+Related Documents
+
+---
+
+# SDLC CONTENT
+
+## Idea Forming
+
+Purpose:
+
+Collect opportunities, pains and ideas worth exploring.
+
+Outputs:
+
+Ideas List
+
+Roles:
+
+Product Lead
+
+Community Members
+
+Source:
+PRC001 SDLC
+
+---
+
+## Discovery
+
+Purpose:
+
+Validate problems and product value.
+
+Outputs:
+
+Interview Reports
+
+Hypotheses
+
+MVP
+
+Go / No-Go Decision
+
+Roles:
+
+Product Lead
+
+Researchers
+
+---
+
+## Product Design
+
+Purpose:
+
+Create user experience and product flows.
+
+Outputs:
+
+UX/UI Designs
+
+User Flows
+
+---
+
+## Planning
+
+Purpose:
+
+Transform vision into executable work.
+
+Outputs:
+
+Roadmap
+
+Epics
+
+Estimates
+
+---
+
+## Architecture
+
+Purpose:
+
+Define technical solution.
+
+Outputs:
+
+Architecture
+
+ADR
+
+RFC
+
+---
+
+## Backlog
+
+Purpose:
+
+Prepare implementation tasks.
+
+Outputs:
+
+Issues
+
+Labels
+
+Task Structure
+
+---
+
+## Development
+
+Purpose:
+
+Implement functionality.
+
+Outputs:
+
+Code
+
+Tests
+
+Pull Requests
+
+---
+
+## QA
+
+Purpose:
+
+Validate quality.
+
+Outputs:
+
+Test Cases
+
+Bug Reports
+
+Automation
+
+---
+
+## Delivery
+
+Purpose:
+
+Publish product.
+
+Outputs:
+
+Releases
+
+Deployments
+
+Release Notes
+
+---
+
+## Operations
+
+Purpose:
+
+Keep system running.
+
+Outputs:
+
+Monitoring
+
+Metrics
+
+Incident Reports
+
+---
+
+## Feedback
+
+Purpose:
+
+Collect learning and user feedback.
+
+Outputs:
+
+Reports
+
+New Hypotheses
+
+---
+
+# ROLES PAGE
+
+URL:
+
+/roles
+
+Title:
+
+# Roles
+
+Based on ENT002 Roles document.
+
+---
+
+## Vision Lead
+
+Mission:
+
+Protect purpose and direction.
+
+---
+
+## Coordinator
+
+Mission:
+
+Support project operations and workflow continuity.
+
+Responsibilities:
+
+* repositories
+* permissions
+* infrastructure
+* collaboration spaces
+
+---
+
+## Community Steward
+
+Mission:
+
+Support community health and onboarding.
+
+---
+
+## Product Lead
+
+Mission:
+
+Define product value.
+
+Responsibilities:
+
+* discovery
+* roadmap
+* prioritization
+
+---
+
+## Maintainer
+
+Mission:
+
+Own technical quality.
+
+Responsibilities:
+
+* architecture
+* code review
+* technical standards
+
+---
+
+# JOIN PAGE
+
+URL:
+
+/join
+
+Most important conversion page.
+
+---
+
+## Hero
+
+Title:
+
+# Join WildPointer
+
+Subtitle:
+
+Start contributing today.
+
+No permission required.
+
+---
+
+## Ways To Join
+
+### Telegram
+
+Community Chat
+
+Button
+
+### GitHub
+
+Organization Profile
+
+Button
+
+### Email
+
+[contact@wildpointer.org](mailto:contact@wildpointer.org)
+
+Button
+
+### Google Form
+
+Contributor Application
+
+Button
+
+### Contact Form
+
+Fields:
+
+Name
+
+Email
+
+Role
+
+Message
+
+Submit
+
+---
+
+## FAQ
+
+### Do I need experience?
+
+No.
+
+### Do I need to commit full-time?
+
+No.
+
+### Can I leave anytime?
+
+Yes.
+
+### Is participation paid?
+
+Participation is volunteer-based.
+
+---
+
+# CONTENT SOURCES
+
+The website content should be generated from WildPointer documentation.
+
+Documents:
+
+ENT001 Manifesto
+
+ENT002 Roles
+
+PRC001 SDLC
+
+Project Markdown Profiles
+
+All project data must be stored separately from page templates.
+
+Use Astro Content Collections.
+
+---
+
+# SEO
+
+Home page title:
+
+WildPointer — Open Community Building Open-Source Products
+
+Description:
+
+Open volunteer community building real open-source products through transparent collaboration.
+
+---
+
+# Future Extensions
+
+Potential future features:
+
+* contributor directory
+* project dashboards
+* project statistics
+* automated GitHub integration
+* project activity feed
+* multilingual support (EN/RU/PT)
+* project search

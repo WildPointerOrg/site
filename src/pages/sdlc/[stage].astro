@@ -1,0 +1,96 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import MarkdownContent from '../../components/MarkdownContent.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import DocumentCard from '../../components/DocumentCard.astro';
+import { render } from 'astro:content';
+import { getAllStages, getProjectsByStage, getAllDocuments, stageSlug } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const stages = await getAllStages();
+  return stages.map((stage) => ({
+    params: { stage: stageSlug(stage) },
+    props: { stage }
+  }));
+}
+
+const { stage } = Astro.props;
+const { Content } = await render(stage);
+const projects = await getProjectsByStage(stageSlug(stage));
+const documents = await getAllDocuments();
+
+const relatedDocs = stage.data.relatedDocuments
+  .map((ref) => {
+    const match = documents.find(
+      (d) => d.data.title === ref.title || d.data.docId === ref.title
+    );
+    return match ? { ref, doc: match } : null;
+  })
+  .filter((item): item is NonNullable<typeof item> => Boolean(item));
+---
+
+<Layout title={`${stage.data.title} — SDLC — WildPointer`} description={stage.data.shortDescription}>
+  <article class="page-container py-12 md:py-16">
+    <header class="mb-10">
+      <p class="mb-2 text-sm text-wp-accent">Stage {stage.data.order}</p>
+      <h1 class="section-title mb-3">{stage.data.title}</h1>
+      <p class="section-lead">{stage.data.purpose}</p>
+    </header>
+
+    <div class="mb-10 grid gap-6 lg:grid-cols-2">
+      <section class="rounded-lg border border-wp-border bg-wp-surface p-5">
+        <h2 class="mb-3 text-lg font-semibold text-wp-text">Activities</h2>
+        <ul class="list-disc space-y-1 pl-5 text-sm text-wp-muted">
+          {stage.data.activities.map((item) => <li>{item}</li>)}
+        </ul>
+      </section>
+      <section class="rounded-lg border border-wp-border bg-wp-surface p-5">
+        <h2 class="mb-3 text-lg font-semibold text-wp-text">Outputs</h2>
+        <ul class="list-disc space-y-1 pl-5 text-sm text-wp-muted">
+          {stage.data.outputs.map((item) => <li>{item}</li>)}
+        </ul>
+        <p class="mt-4 text-sm">
+          <span class="font-medium text-wp-text">Main output:</span>{' '}
+          <span class="text-wp-muted">{stage.data.mainOutput}</span>
+        </p>
+      </section>
+    </div>
+
+    <section class="mb-10">
+      <h2 class="mb-3 text-lg font-semibold text-wp-text">Required Roles</h2>
+      <ul class="flex flex-wrap gap-2">
+        {stage.data.requiredRoles.map((role) => (
+          <li class="rounded border border-wp-border px-3 py-1 text-sm text-wp-text">{role}</li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="mb-10">
+      <MarkdownContent Content={Content} />
+    </section>
+
+    <section class="mb-10">
+      <h2 class="mb-4 text-2xl font-bold text-wp-text">Current Projects</h2>
+      {
+        projects.length > 0 ? (
+          <div class="grid gap-6 md:grid-cols-2">
+            {projects.map((project) => <ProjectCard project={project} />)}
+          </div>
+        ) : (
+          <p class="text-wp-muted">No projects are currently in this stage.</p>
+        )
+      }
+    </section>
+
+    {
+      relatedDocs.length > 0 && (
+        <section>
+          <h2 class="mb-4 text-2xl font-bold text-wp-text">Related Documents</h2>
+          <div class="grid gap-4 md:grid-cols-2">
+            {relatedDocs.map(({ doc }) => <DocumentCard document={doc} />)}
+          </div>
+        </section>
+      )
+    }
+  </article>
+</Layout>

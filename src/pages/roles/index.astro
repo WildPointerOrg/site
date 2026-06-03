@@ -1,0 +1,25 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import RoleCard from '../../components/RoleCard.astro';
+import { getAllRoles } from '../../lib/content';
+import { withBase } from '../../lib/paths';
+
+const roles = await getAllRoles();
+---
+
+<Layout title="Roles — WildPointer" description="WildPointer roles are functions, not ranks. Based on ENT002 Roles.">
+  <div class="page-container py-12 md:py-16">
+    <h1 class="section-title">Roles</h1>
+    <p class="section-lead">
+      WildPointer roles are functions, not ranks. Each role has a mission, clear boundaries, and ways to contribute.
+      Based on{' '}
+      <a href={withBase('docs/roles/')} class="text-wp-accent hover:underline">
+        ENT002 Roles
+      </a>
+      .
+    </p>
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {roles.map((role) => <RoleCard role={role} />)}
+    </div>
+  </div>
+</Layout>

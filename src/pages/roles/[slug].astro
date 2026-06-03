@@ -1,0 +1,92 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import MarkdownContent from '../../components/MarkdownContent.astro';
+import StageCard from '../../components/StageCard.astro';
+import DocumentCard from '../../components/DocumentCard.astro';
+import { render } from 'astro:content';
+import { getAllRoles, getAllStages, getAllDocuments, roleSlug, stageSlug } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const roles = await getAllRoles();
+  return roles.map((role) => ({
+    params: { slug: role.id },
+    props: { role }
+  }));
+}
+
+const { role } = Astro.props;
+const { Content } = await render(role);
+const stages = await getAllStages();
+const documents = await getAllDocuments();
+
+const relatedStages = stages.filter((s) => role.data.relatedStages.includes(stageSlug(s)));
+const relatedDocs = role.data.relatedDocuments
+  .map((ref) => documents.find((d) => d.data.title === ref.title || d.data.docId === ref.title))
+  .filter((d): d is NonNullable<typeof d> => Boolean(d));
+---
+
+<Layout title={`${role.data.title} — WildPointer`} description={role.data.summary}>
+  <article class="page-container py-12 md:py-16">
+    <header class="mb-10 border-b border-wp-border pb-8">
+      <h1 class="mb-2 text-4xl font-bold text-wp-text">{role.data.title}</h1>
+      <p class="mb-2 text-lg text-wp-accent">{role.data.mission}</p>
+      <p class="max-w-3xl text-wp-muted">{role.data.summary}</p>
+      {
+        role.data.traditionalEquivalent && (
+          <p class="mt-4 text-sm text-wp-muted">
+            Traditional equivalent: {role.data.traditionalEquivalent}
+          </p>
+        )
+      }
+    </header>
+
+    <div class="mb-10 grid gap-6 lg:grid-cols-2">
+      {
+        role.data.responsibilities.length > 0 && (
+          <section class="rounded-lg border border-wp-border bg-wp-surface p-5">
+            <h2 class="mb-3 text-lg font-semibold text-wp-text">Responsibilities</h2>
+            <ul class="list-disc space-y-1 pl-5 text-sm text-wp-muted">
+              {role.data.responsibilities.map((item) => <li>{item}</li>)}
+            </ul>
+          </section>
+        )
+      }
+      {
+        role.data.limitations.length > 0 && (
+          <section class="rounded-lg border border-wp-border bg-wp-surface p-5">
+            <h2 class="mb-3 text-lg font-semibold text-wp-text">Limitations</h2>
+            <ul class="list-disc space-y-1 pl-5 text-sm text-wp-muted">
+              {role.data.limitations.map((item) => <li>{item}</li>)}
+            </ul>
+          </section>
+        )
+      }
+    </div>
+
+    <section class="mb-10">
+      <MarkdownContent Content={Content} />
+    </section>
+
+    {
+      relatedStages.length > 0 && (
+        <section class="mb-10">
+          <h2 class="mb-4 text-2xl font-bold text-wp-text">Related Stages</h2>
+          <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {relatedStages.map((stage) => <StageCard stage={stage} compact />)}
+          </div>
+        </section>
+      )
+    }
+
+    {
+      relatedDocs.length > 0 && (
+        <section>
+          <h2 class="mb-4 text-2xl font-bold text-wp-text">Related Documents</h2>
+          <div class="grid gap-4 md:grid-cols-2">
+            {relatedDocs.map((doc) => <DocumentCard document={doc} />)}
+          </div>
+        </section>
+      )
+    }
+  </article>
+</Layout>

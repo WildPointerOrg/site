@@ -1,0 +1,188 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import MarkdownContent from '../../components/MarkdownContent.astro';
+import ProjectProgress from '../../components/ProjectProgress.astro';
+import { render } from 'astro:content';
+import {
+  getAllProjects,
+  getAllStages,
+  formatMonthYear,
+  projectSlug,
+  projectCoverSrc,
+  projectCoverAlt
+} from '../../lib/content';
+
+export async function getStaticPaths() {
+  const projects = await getAllProjects();
+  return projects.map((project) => ({
+    params: { slug: projectSlug(project) },
+    props: { project }
+  }));
+}
+
+const { project } = Astro.props;
+const stages = await getAllStages();
+const { Content } = await render(project);
+const { title, tagline, summary, stageLabel, startedAt, neededRoles, links, contacts, coverImage } =
+  project.data;
+const startedLabel = formatMonthYear(startedAt);
+const coverSrc = projectCoverSrc(coverImage);
+const coverAlt = projectCoverAlt(project);
+---
+
+<Layout title={`${title} — WildPointer`} description={summary}>
+  <article class="page-container py-12 md:py-16">
+    <header class="mb-10 border-b border-wp-border pb-8">
+      <img
+        src={coverSrc}
+        alt={coverAlt}
+        class="mb-8 aspect-[21/9] w-full rounded-xl border border-wp-border object-cover md:aspect-[2.5/1]"
+        fetchpriority="high"
+        decoding="async"
+      />
+      <span class="mb-3 inline-block rounded-full border border-wp-accent/40 bg-wp-accent/10 px-3 py-1 text-xs font-medium text-wp-accent">
+        {stageLabel}
+      </span>
+      <h1 class="mb-2 text-4xl font-bold text-wp-text">{title}</h1>
+      {tagline && <p class="mb-3 text-xl text-wp-accent">{tagline}</p>}
+      <p class="max-w-3xl text-lg text-wp-muted">{summary}</p>
+    </header>
+
+    <section class="mb-10 grid gap-6 md:grid-cols-2">
+      <div class="rounded-lg border border-wp-border bg-wp-surface p-5">
+        <h2 class="mb-3 text-sm font-semibold uppercase tracking-wide text-wp-muted">Current Status</h2>
+        <dl class="space-y-2 text-sm">
+          <div class="flex justify-between gap-4">
+            <dt class="text-wp-muted">Current Stage</dt>
+            <dd class="font-medium text-wp-text">{stageLabel}</dd>
+          </div>
+          {
+            startedLabel && (
+              <div class="flex justify-between gap-4">
+                <dt class="text-wp-muted">Started</dt>
+                <dd class="font-medium text-wp-text">{startedLabel}</dd>
+              </div>
+            )
+          }
+        </dl>
+      </div>
+
+      <div class="rounded-lg border border-wp-border bg-wp-surface p-5">
+        <h2 class="mb-3 text-sm font-semibold uppercase tracking-wide text-wp-muted">Progress</h2>
+        <ProjectProgress project={project} stages={stages} />
+      </div>
+    </section>
+
+    <section class="mb-10">
+      <MarkdownContent Content={Content} />
+    </section>
+
+    {
+      neededRoles.length > 0 && (
+        <section class="mb-10">
+          <h2 class="mb-4 text-2xl font-bold text-wp-text">Needed Contributors</h2>
+          <ul class="flex flex-wrap gap-2">
+            {neededRoles.map((role) => (
+              <li class="rounded border border-wp-border px-3 py-1.5 text-sm text-wp-text">{role}</li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <section class="mb-10 grid gap-6 md:grid-cols-2">
+      <div class="rounded-lg border border-wp-border bg-wp-surface p-5">
+        <h2 class="mb-4 text-lg font-semibold text-wp-text">Resources</h2>
+        <ul class="space-y-2 text-sm">
+          {
+            links?.github && (
+              <li>
+                <a href={links.github} target="_blank" rel="noreferrer" class="text-wp-accent hover:underline">
+                  GitHub Repository
+                </a>
+              </li>
+            )
+          }
+          {
+            links?.docs && (
+              <li>
+                <a href={links.docs} target="_blank" rel="noreferrer" class="text-wp-accent hover:underline">
+                  Documentation
+                </a>
+              </li>
+            )
+          }
+          {
+            links?.discussions && (
+              <li>
+                <a href={links.discussions} target="_blank" rel="noreferrer" class="text-wp-accent hover:underline">
+                  Discussions
+                </a>
+              </li>
+            )
+          }
+          {
+            links?.roadmap && (
+              <li>
+                <a href={links.roadmap} target="_blank" rel="noreferrer" class="text-wp-accent hover:underline">
+                  Roadmap
+                </a>
+              </li>
+            )
+          }
+          {
+            !links?.github && !links?.docs && !links?.discussions && !links?.roadmap && (
+              <li class="text-wp-muted">Links coming soon.</li>
+            )
+          }
+        </ul>
+      </div>
+
+      <div class="rounded-lg border border-wp-border bg-wp-surface p-5">
+        <h2 class="mb-4 text-lg font-semibold text-wp-text">Contacts</h2>
+        <dl class="space-y-2 text-sm">
+          <div>
+            <dt class="text-wp-muted">Project Coordinator</dt>
+            <dd class="text-wp-text">{contacts?.coordinator || 'TBD'}</dd>
+          </div>
+          {
+            contacts?.telegram && (
+              <div>
+                <dt class="text-wp-muted">Telegram</dt>
+                <dd>
+                  <a href={contacts.telegram} class="text-wp-accent hover:underline">
+                    {contacts.telegram}
+                  </a>
+                </dd>
+              </div>
+            )
+          }
+          {
+            contacts?.email && (
+              <div>
+                <dt class="text-wp-muted">Email</dt>
+                <dd>
+                  <a href={`mailto:${contacts.email}`} class="text-wp-accent hover:underline">
+                    {contacts.email}
+                  </a>
+                </dd>
+              </div>
+            )
+          }
+          {
+            links?.discussions && (
+              <div>
+                <dt class="text-wp-muted">GitHub Discussions</dt>
+                <dd>
+                  <a href={links.discussions} target="_blank" rel="noreferrer" class="text-wp-accent hover:underline">
+                    Join discussion
+                  </a>
+                </dd>
+              </div>
+            )
+          }
+        </dl>
+      </div>
+    </section>
+  </article>
+</Layout>

@@ -1,0 +1,79 @@
+---
+import type { ProjectEntry } from '../lib/content';
+import { projectSlug, projectCoverSrc, projectCoverAlt } from '../lib/content';
+import { withBase } from '../lib/paths';
+
+interface Props {
+  project: ProjectEntry;
+  showLinks?: boolean;
+}
+
+const { project, showLinks = false } = Astro.props;
+const { title, summary, stageLabel, neededRoles, links, coverImage } = project.data;
+const projectHref = withBase(`projects/${projectSlug(project)}/`);
+const coverSrc = projectCoverSrc(coverImage);
+const coverAlt = projectCoverAlt(project);
+---
+
+<article class="flex h-full flex-col overflow-hidden rounded-lg border border-wp-border bg-wp-surface transition hover:border-wp-accent/40">
+  <a href={projectHref} class="block shrink-0">
+    <img
+      src={coverSrc}
+      alt={coverAlt}
+      class="aspect-[16/9] w-full object-cover"
+      loading="lazy"
+      decoding="async"
+    />
+  </a>
+
+  <div class="flex flex-1 flex-col p-5">
+    <div class="mb-3 flex flex-wrap items-start justify-between gap-2">
+      <h3 class="text-lg font-semibold text-wp-text">
+        <a href={projectHref} class="hover:text-wp-accent">{title}</a>
+      </h3>
+      <span class="rounded-full border border-wp-border px-2.5 py-0.5 text-xs text-wp-muted">
+        {stageLabel}
+      </span>
+    </div>
+
+    <p class="mb-4 flex-1 text-sm leading-relaxed text-wp-muted">{summary}</p>
+
+    {neededRoles.length > 0 && (
+      <div class="mb-4">
+        <p class="mb-2 text-xs font-medium uppercase tracking-wide text-wp-muted">Needed roles</p>
+        <ul class="flex flex-wrap gap-1.5">
+          {neededRoles.map((role) => (
+            <li class="rounded border border-wp-border px-2 py-0.5 text-xs text-wp-text">{role}</li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    {showLinks && links && (
+      <div class="mb-4 flex flex-wrap gap-2 text-xs">
+        {links.github && (
+          <a href={links.github} target="_blank" rel="noreferrer" class="text-wp-accent hover:underline">
+            GitHub
+          </a>
+        )}
+        {links.docs && (
+          <a href={links.docs} target="_blank" rel="noreferrer" class="text-wp-accent hover:underline">
+            Docs
+          </a>
+        )}
+        {links.discussions && (
+          <a href={links.discussions} target="_blank" rel="noreferrer" class="text-wp-accent hover:underline">
+            Discussions
+          </a>
+        )}
+      </div>
+    )}
+
+    <a
+      href={projectHref}
+      class="mt-auto inline-flex w-fit items-center rounded-md border border-wp-border px-3 py-1.5 text-sm font-medium text-wp-text transition hover:border-wp-accent hover:text-wp-accent"
+    >
+      View Project
+    </a>
+  </div>
+</article>

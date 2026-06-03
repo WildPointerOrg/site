@@ -1,0 +1,33 @@
+---
+import { withBase } from '../lib/paths';
+import { SITE } from '../config/site';
+
+interface Props {
+  title?: string;
+  text?: string;
+}
+
+const {
+  title = 'Ready To Build Something Real?',
+  text = 'If our principles resonate with you, you are already part of WildPointer.'
+} = Astro.props;
+---
+
+<section class="rounded-xl border border-wp-accent/30 bg-gradient-to-br from-wp-accent/10 to-transparent p-8 md:p-12">
+  <h2 class="mb-3 text-2xl font-bold text-wp-text md:text-3xl">{title}</h2>
+  <p class="mb-6 max-w-2xl text-wp-muted">{text}</p>
+  <div class="flex flex-wrap gap-3">
+    <a
+      href={withBase('join/')}
+      class="inline-flex items-center rounded-md bg-wp-accent px-5 py-2.5 text-sm font-semibold text-wp-bg transition hover:bg-wp-accent-hover"
+    >
+      Join Community
+    </a>
+    <a
+      href={withBase('projects/')}
+      class="inline-flex items-center rounded-md border border-wp-border px-5 py-2.5 text-sm font-semibold text-wp-text transition hover:border-wp-accent hover:text-wp-accent"
+    >
+      View Projects
+    </a>
+  </div>
+</section>
