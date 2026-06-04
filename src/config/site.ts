@@ -15,7 +15,7 @@ export const SITE = {
   memberCount: 15,
   /** Public form for contributors (view URL; same form as the Google Forms editor link) */
   contributorFormUrl:
-    'https://docs.google.com/forms/d/1X_ZAoYNTVvYe1_TQWmf0q6dbeKrPNicNERMwHBGhFlw/viewform'
+    'https://docs.google.com/forms/d/1AY6j3WVeqDKPmuSzvTryYdFpK4cPb38EaiGUInWtauk/viewform'
 } as const;
 
 export const NAV_LINKS = [

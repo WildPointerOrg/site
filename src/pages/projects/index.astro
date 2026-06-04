@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import { getAllProjects } from '../../lib/content';
+import { withBase } from '../../lib/paths';
 
 const projects = await getAllProjects();
 
@@ -22,6 +23,11 @@ const filters: { key: FilterKey; label: string }[] = [
   <div class="page-container py-12 md:py-16">
     <h1 class="section-title">Projects</h1>
     <p class="section-lead">Explore projects currently being developed inside WildPointer.</p>
+    <p class="mb-8 max-w-3xl text-wp-muted">
+      Didn't find the right project?
+      <a href={withBase('join/')} class="font-medium text-wp-accent hover:underline">Join the community</a>
+      and propose your own project ideas.
+    </p>
 
     <div class="mb-8 flex flex-wrap gap-2" id="project-filters" role="tablist" aria-label="Filter projects">
       {
