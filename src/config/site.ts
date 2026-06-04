@@ -3,7 +3,7 @@ export const SITE = {
   title: 'WildPointer — Open Community Building Open-Source Products',
   description:
     'Open volunteer community building real open-source products through transparent collaboration.',
-  github: 'https://github.com/wildwildpointer',
+  github: 'https://github.com/WildPointerOrg',
   telegram: 'https://t.me/chechestor',
   email: 'mailto:wildwildpointer@gmail.com',
   linkedin: 'https://www.linkedin.com/company/wildpointer',
