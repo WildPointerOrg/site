@@ -47,6 +47,29 @@ export function projectCoverAlt(project: ProjectEntry) {
   return project.data.coverAlt?.trim() || project.data.title;
 }
 
+export type ProjectMaterial = ProjectEntry['data']['materials'][number];
+
+export function groupProjectMaterials(
+  materials: ProjectMaterial[] | undefined,
+  stages: StageEntry[]
+) {
+  if (!materials?.length) return [];
+
+  const byStage = new Map<string, ProjectMaterial[]>();
+  for (const item of materials) {
+    const list = byStage.get(item.stage) ?? [];
+    list.push(item);
+    byStage.set(item.stage, list);
+  }
+
+  return stages
+    .filter((stage) => byStage.has(stage.id))
+    .map((stage) => ({
+      stage,
+      items: byStage.get(stage.id)!.sort((a, b) => a.order - b.order)
+    }));
+}
+
 export function stageSlug(stage: StageEntry) {
   return entrySlug(stage.id);
 }

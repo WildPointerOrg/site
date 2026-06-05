@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import MarkdownContent from '../../components/MarkdownContent.astro';
 import ProjectProgress from '../../components/ProjectProgress.astro';
+import ProjectMaterials from '../../components/ProjectMaterials.astro';
 import { render } from 'astro:content';
 import {
   getAllProjects,
@@ -76,6 +77,8 @@ const coverAlt = projectCoverAlt(project);
     <section class="mb-10">
       <MarkdownContent Content={Content} />
     </section>
+
+    <ProjectMaterials project={project} stages={stages} />
 
     {
       neededRoles.length > 0 && (

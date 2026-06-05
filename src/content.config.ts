@@ -52,6 +52,17 @@ const projects = defineCollection({
       .optional(),
     coverImage: z.string().optional(),
     coverAlt: z.string().optional(),
+    materials: z
+      .array(
+        z.object({
+          stage: z.enum(stageSlugs),
+          title: z.string().min(1),
+          summary: z.string().optional(),
+          url: z.string().min(1),
+          order: z.number().default(999)
+        })
+      )
+      .default([]),
     featured: z.boolean().default(false),
     order: z.number().default(999)
   })

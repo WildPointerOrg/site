@@ -24,6 +24,12 @@ contacts:
   coordinator: "tg: @chechestor"
   telegram: ""
   email: ""
+materials:
+  - stage: "idea-forming"
+    title: "NotesAI — Idea Document"
+    summary: "Formatted idea overview — problem, users, solution, competitors, and risks"
+    url: "https://docs.google.com/document/d/1cckBan-CQ0EU9Gql997ZVmQO6C88TGhiQAhf4bAj72Q/edit?usp=sharing"
+    order: 1
 featured: true
 order: 1
 ---
