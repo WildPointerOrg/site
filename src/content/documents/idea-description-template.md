@@ -3,7 +3,7 @@ title: "IdeaDescription Template"
 docId: "PRC002.000"
 category: "PRC"
 summary: "Template for describing new product ideas."
-url: ""
+url: "https://docs.google.com/document/d/1FsFvLdIFzO7fGZ0LqDVo1BXH7nwHOO3fI_sWZxVuxqs/edit?usp=sharing"
 order: 2
 ---
 

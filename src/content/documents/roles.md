@@ -3,7 +3,7 @@ title: "Roles"
 docId: "ENT002.000"
 category: "ENT"
 summary: "Community roles, missions, and boundaries."
-url: ""
+url: "https://docs.google.com/document/d/19ARTpWBen_X2rYFXUu2_fj6Wo_2QdhtyKdpowmQk6pw/edit?usp=sharing"
 order: 2
 ---
 

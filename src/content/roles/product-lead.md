@@ -28,7 +28,7 @@ instructions:
   - title: "INS002.000 Product Lead"
     docId: "INS002.000"
     summary: "Role instructions — product value, discovery, roadmap, and prioritization"
-    url: "https://drive.google.com/drive/folders/1xpbEXAHr4cm2DjIE3-Cj1GPMFWge3FQj"
+    url: "https://docs.google.com/document/d/1leVcnaQm5G6ATjSmftmRbNqOLApoONztuQV2oMyhCOw/edit?usp=sharing"
     order: 1
 ---
 

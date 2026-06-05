@@ -3,7 +3,7 @@ title: "SDLC"
 docId: "PRC001.000"
 category: "PRC"
 summary: "Product development lifecycle used by WildPointer squads."
-url: ""
+url: "https://docs.google.com/document/d/1qRSnBL6wt8XOdTar1lmYFm8zPk_odTwcNEFFTcingsw/edit?usp=sharing"
 order: 1
 ---
 
