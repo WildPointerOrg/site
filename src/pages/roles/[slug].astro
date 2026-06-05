@@ -3,13 +3,14 @@ import Layout from '../../layouts/Layout.astro';
 import MarkdownContent from '../../components/MarkdownContent.astro';
 import StageCard from '../../components/StageCard.astro';
 import DocumentCard from '../../components/DocumentCard.astro';
+import RoleInstructions from '../../components/RoleInstructions.astro';
 import { render } from 'astro:content';
 import { getAllRoles, getAllStages, getAllDocuments, roleSlug, stageSlug } from '../../lib/content';
 
 export async function getStaticPaths() {
   const roles = await getAllRoles();
   return roles.map((role) => ({
-    params: { slug: role.id },
+    params: { slug: roleSlug(role) },
     props: { role }
   }));
 }
@@ -39,6 +40,8 @@ const relatedDocs = role.data.relatedDocuments
         )
       }
     </header>
+
+    <RoleInstructions role={role} />
 
     <div class="mb-10 grid gap-6 lg:grid-cols-2">
       {

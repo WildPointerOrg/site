@@ -1,6 +1,6 @@
 ---
 title: "Manifesto"
-docId: "ENT001.000"
+docId: "ENT001.001"
 category: "ENT"
 summary: "Mission, philosophy, and core principles of WildPointer."
 url: ""

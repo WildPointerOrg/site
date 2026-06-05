@@ -25,6 +25,12 @@ relatedStages:
 relatedDocuments:
   - title: "INS001.000 Coordinator"
     url: ""
+instructions:
+  - title: "INS001.000 Coordinator"
+    docId: "INS001.000"
+    summary: "Operational instructions — repositories, permissions, workspaces, and squad support"
+    url: "https://docs.google.com/document/d/1BhFauNk5mjfnsuPIl0yuvHh7YiXgUb5hVM6XQgK49zI/edit?usp=sharing"
+    order: 1
 ---
 
 ## When This Role Is Needed

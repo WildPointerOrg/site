@@ -10,6 +10,8 @@ export const SITE = {
   registry:
     'https://docs.google.com/document/d/175_0ydccuobLuq9lwsbwxwha74-dvb0JUyEoPQ0k4OU/edit?usp=drive_link',
   drive: 'https://drive.google.com/drive/folders/1BtWFqoJgypN-O1KAxZ4StLzoNHQOomFE?usp=drive_link',
+  documentsFolder:
+    'https://drive.google.com/drive/folders/1xpbEXAHr4cm2DjIE3-Cj1GPMFWge3FQj',
   miro: 'https://miro.com/app/board/uXjVGkdA9jc=/?share_link_id=967284923762',
   /** Placeholder until integrated with community metrics */
   memberCount: 15,
@@ -24,5 +26,6 @@ export const NAV_LINKS = [
   { label: 'SDLC', href: '/sdlc/' },
   { label: 'Roles', href: '/roles/' },
   { label: 'Join', href: '/join/' },
+  { label: 'Docs', href: '/docs/' },
   { label: 'GitHub', href: SITE.github, external: true }
 ] as const;

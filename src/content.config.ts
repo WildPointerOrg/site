@@ -116,6 +116,17 @@ const roles = defineCollection({
           url: z.string().optional()
         })
       )
+      .default([]),
+    instructions: z
+      .array(
+        z.object({
+          title: z.string().min(1),
+          docId: z.string().optional(),
+          summary: z.string().optional(),
+          url: z.string().min(1),
+          order: z.number().default(999)
+        })
+      )
       .default([])
   })
 });

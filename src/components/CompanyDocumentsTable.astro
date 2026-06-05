@@ -1,0 +1,82 @@
+---
+import type { DocumentEntry } from '../lib/content';
+import { SITE } from '../config/site';
+
+interface Props {
+  documents: DocumentEntry[];
+}
+
+const { documents } = Astro.props;
+
+const sections = [
+  {
+    category: 'ENT' as const,
+    title: 'ENT — Organizational',
+    description: 'Governing documents: registry, manifesto, and community roles.'
+  },
+  {
+    category: 'PRC' as const,
+    title: 'PRC — Processes',
+    description: 'How WildPointer works: lifecycle, templates, and repeatable workflows.'
+  },
+  {
+    category: 'INS' as const,
+    title: 'INS — Instructions',
+    description: 'Practical guides for performing specific community roles.'
+  }
+];
+
+function docHref(doc: DocumentEntry) {
+  return doc.data.url?.trim() || SITE.documentsFolder;
+}
+---
+
+<div class="space-y-8">
+  {
+    sections.map((section) => {
+      const items = documents.filter((d) => d.data.category === section.category);
+      if (items.length === 0) return null;
+
+      return (
+        <section>
+          <h2 class="mb-1 text-lg font-semibold text-wp-text">{section.title}</h2>
+          <p class="mb-3 text-sm text-wp-muted">{section.description}</p>
+
+          <div class="overflow-hidden rounded-xl border border-wp-border bg-wp-surface">
+            <div class="overflow-x-auto">
+              <table class="w-full min-w-[480px] text-left text-sm">
+                <thead class="border-b border-wp-border/80 bg-wp-bg/40 text-xs uppercase tracking-wide text-wp-muted">
+                  <tr>
+                    <th class="w-28 px-4 py-2 font-medium">ID</th>
+                    <th class="w-[34%] px-4 py-2 font-medium">Document</th>
+                    <th class="px-4 py-2 font-medium">Comment</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {items.map((doc, index) => (
+                    <tr class:list={[index < items.length - 1 && 'border-b border-wp-border/50']}>
+                      <td class="align-top px-4 py-2">
+                        <span class="font-mono text-xs text-wp-muted">{doc.data.docId}</span>
+                      </td>
+                      <td class="align-top px-4 py-2">
+                        <a
+                          href={docHref(doc)}
+                          target="_blank"
+                          rel="noreferrer"
+                          class="font-medium text-wp-accent hover:underline"
+                        >
+                          {doc.data.title}
+                        </a>
+                      </td>
+                      <td class="align-top px-4 py-2 text-wp-muted">{doc.data.summary}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      );
+    })
+  }
+</div>
