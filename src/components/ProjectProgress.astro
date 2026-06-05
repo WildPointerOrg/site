@@ -11,8 +11,8 @@ const { project, stages } = Astro.props;
 const currentIndex = getStageIndex(project.data.stage, stages);
 ---
 
-<div class="overflow-x-auto pb-2" aria-label="SDLC progress">
-  <ol class="flex min-w-max items-center gap-1">
+<div class="overflow-x-auto pb-1 md:overflow-visible" aria-label="SDLC progress">
+  <ol class="flex w-full min-w-max items-start justify-between gap-1 md:min-w-0">
     {stages.map((stage, index) => {
       const state =
         index < currentIndex ? 'done' : index === currentIndex ? 'current' : 'future';
@@ -25,7 +25,10 @@ const currentIndex = getStageIndex(project.data.stage, stages);
             : 'text-wp-muted';
 
       return (
-        <li class={`flex flex-col items-center px-2 text-center ${color}`} title={stage.data.title}>
+        <li
+          class={`flex min-w-[4.5rem] flex-1 flex-col items-center px-1 text-center sm:min-w-0 ${color}`}
+          title={stage.data.title}
+        >
           <span class="text-lg leading-none" aria-hidden="true">
             {symbol}
           </span>

@@ -132,3 +132,27 @@ export function formatMonthYear(isoDate?: string) {
 export function getStageIndex(stageId: string, stages: StageEntry[]) {
   return stages.findIndex((s) => entrySlug(s.id) === stageId);
 }
+
+export type ResolvedContributorRole = {
+  label: string;
+  href?: string;
+};
+
+export function resolveNeededContributorRoles(
+  neededRoles: string[],
+  roles: RoleEntry[]
+): ResolvedContributorRole[] {
+  return neededRoles.map((label) => {
+    const normalized = label.trim().toLowerCase();
+    const slugGuess = normalized.replace(/\s+/g, '-');
+    const match = roles.find(
+      (role) =>
+        role.data.title.trim().toLowerCase() === normalized || entrySlug(role.id) === slugGuess
+    );
+
+    return {
+      label,
+      href: match ? withBase(`roles/${roleSlug(match)}/`) : undefined
+    };
+  });
+}
