@@ -24,6 +24,12 @@ relatedDocuments:
     url: ""
   - title: "PRC001.000 SDLC"
     url: ""
+instructions:
+  - title: "INS002.000 Product Lead"
+    docId: "INS002.000"
+    summary: "Role instructions — product value, discovery, roadmap, and prioritization"
+    url: "https://drive.google.com/drive/folders/1xpbEXAHr4cm2DjIE3-Cj1GPMFWge3FQj"
+    order: 1
 ---
 
 ## When This Role Is Needed
