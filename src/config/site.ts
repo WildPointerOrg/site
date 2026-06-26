@@ -4,7 +4,7 @@ export const SITE = {
   description:
     'Open volunteer community building real open-source products through transparent collaboration.',
   github: 'https://github.com/wildwildpointer',
-  telegram: 'https://t.me/chechestor',
+  telegram: 'https://t.me/wp_joinus',
   email: 'mailto:wildwildpointer@gmail.com',
   linkedin: 'https://www.linkedin.com/company/wildpointer',
   registry:
